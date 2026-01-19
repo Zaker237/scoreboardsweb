@@ -78,7 +78,7 @@ pnpm install
 Create a .env.local file:
 
 ```bash
-NEXT_PUBLIC_API_BASE_URL=http://localhost:8000/api
+NEXT_PUBLIC_API_HOST=http://localhost:8000/api
 ```
 
 Adjust the URL to match your backend.
