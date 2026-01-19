@@ -38,18 +38,18 @@ This repository contains only the frontend of the Scoreboards platform and is de
 ## 📂 Project Structure
 
 ```
-├── app/               # Next.js routes
-├── components/        # Reusable UI components
-├── constants/         # Next.js routes
-├── contexts/          # Next.js routes
-├── enums/             # Next.js routes
-├── interfaces/        # TypeScript types & interfaces
-├── lib/               # TypeScript types & interfaces
-├── public/            # TypeScript types & interfaces
-├── reducers/          # TypeScript types & interfaces
-├── services/          # API service layer
-├── types/             # Next.js routes
-└── utils/             # Utilities & helpers
+├── app/               # Next.js App Router (routes, layouts, pages)
+├── components/        # Reusable UI components (shared & feature-based)
+├── constants/         # App-wide constants (routes, config, static values)
+├── contexts/          # React Context providers (auth, theme, settings)
+├── enums/             # TypeScript enums (statuses, types, roles)
+├── interfaces/        # Domain interfaces (API responses, DTOs)
+├── lib/               # App setup & external integrations
+├── public/            # Static assets (images, icons, fonts)
+├── reducers/          # Reducers (useReducer / global state logic)
+├── services/          # API service layer (Axios, endpoints)
+├── types/             # Shared & generic TypeScript types
+└── utils/             # Utility & helper functions
 ```
 
 ## 🚀 Getting Started
