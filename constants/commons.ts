@@ -1,0 +1,1 @@
+export const DEVICE_KEY = "scoreboards_device_id";

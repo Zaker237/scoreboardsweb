@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://scoreboards.alexwalker.app/sitemap.xml
