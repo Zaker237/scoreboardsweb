@@ -3,7 +3,7 @@ if (!process.env.NEXT_PUBLIC_API_HOST) {
 }
 
 export const HOST = process.env.NEXT_PUBLIC_API_HOST;
-export let PROTOCOLE: string =
+export const PROTOCOLE: string =
   process.env.NODE_ENV === "production" ? "https" : "http";
 
 const API_VERSION = process.env.NEXT_PUBLIC_API_VERSION ?? "v1";
@@ -42,6 +42,7 @@ export const URLs = {
     BY_EDITION: `${BASE_URL}/matchs/edition/$editionId/`,
     APPEARANCE: `${BASE_URL}/appearances/match/$matchId/`,
     SUBTITUTIONS: `${BASE_URL}/matchs/$matchId/substitutions/`,
+    LINEUPS: `${BASE_URL}/lineups/match/$matchId/`,
   },
   PLAYERS: {
     ALL: `${BASE_URL}/players/`,

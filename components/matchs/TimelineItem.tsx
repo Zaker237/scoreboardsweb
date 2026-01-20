@@ -25,7 +25,7 @@ export const TimelineItem: React.FC<ItemProps> = ({ event }) => {
             </span>
             <span className="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 rounded">
               {event.minute}
-              {event.stoppage_minute ? `+${event.stoppage_minute}` : ""}'
+              {event.stoppage_minute ? `+${event.stoppage_minute}` : ""}&apos;
             </span>
           </div>
           <div className="flex flex-col items-start justify-center">

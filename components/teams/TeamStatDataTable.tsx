@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-
+import { useState, useMemo } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -9,6 +8,7 @@ import {
   useReactTable,
   getSortedRowModel,
   SortingState,
+  Column,
 } from "@tanstack/react-table";
 import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
 import {
@@ -27,10 +27,14 @@ interface IDataTableProps {
 }
 
 export const TeamStatDataTable: React.FC<IDataTableProps> = ({
-  columns,
-  data,
+  columns: propColumns,
+  data: propData,
 }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
+
+  const columns = useMemo(() => propColumns, [propColumns]);
+
+  const data = useMemo(() => propData, [propData]);
 
   const table = useReactTable({
     data,
@@ -42,9 +46,10 @@ export const TeamStatDataTable: React.FC<IDataTableProps> = ({
     debugTable: false,
   });
 
-  const renderSortingIcon = (column: any) => {
+  const renderSortingIcon = (column: Column<ITeamStats, unknown>) => {
     if (!column.getCanSort() || ["position", "team"].includes(column.id))
       return null;
+
     const sorted = column.getIsSorted();
     if (sorted === "asc") return <ArrowUp className="ml-1 w-3 h-3 inline" />;
     if (sorted === "desc") return <ArrowDown className="ml-1 w-3 h-3 inline" />;
@@ -65,7 +70,7 @@ export const TeamStatDataTable: React.FC<IDataTableProps> = ({
                 >
                   {flexRender(
                     header.column.columnDef.header,
-                    header.getContext()
+                    header.getContext(),
                   )}
                   {renderSortingIcon(header.column)}
                 </TableHead>
@@ -75,15 +80,23 @@ export const TeamStatDataTable: React.FC<IDataTableProps> = ({
         </TableHeader>
 
         <TableBody>
-          {table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
+          {table.getRowModel().rows.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                No results.
+              </TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
     </div>
