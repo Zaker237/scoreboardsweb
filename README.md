@@ -48,8 +48,7 @@ This repository contains only the frontend of the Scoreboards platform and is de
 ├── public/            # Static assets (images, icons, fonts)
 ├── reducers/          # Reducers (useReducer / global state logic)
 ├── services/          # API service layer (Axios, endpoints)
-├── types/             # Shared & generic TypeScript types
-└── utils/             # Utility & helper functions
+└── types/             # Shared & generic TypeScript types
 ```
 
 ## 🚀 Getting Started
