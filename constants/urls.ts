@@ -42,6 +42,7 @@ export const URLs = {
     BY_EDITION: `${BASE_URL}/matchs/edition/$editionId/`,
     APPEARANCE: `${BASE_URL}/appearances/match/$matchId/`,
     SUBTITUTIONS: `${BASE_URL}/matchs/$matchId/substitutions/`,
+    LINEUPS: `${BASE_URL}/lineups/matchs/$matchId/`,
   },
   PLAYERS: {
     ALL: `${BASE_URL}/players/`,
