@@ -147,11 +147,11 @@ git commit -m "Add my feature"
 
 - [ ] Live match updates
 
-- [] Dark mode improvements
+- [ ] Dark mode improvements
 
-- [] mobile app
+- [ ] mobile app
 
-- [] i18n (multi-language support)
+- [ ] i18n (multi-language support)
 
 ## ⭐ Support
 

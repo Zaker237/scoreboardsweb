@@ -4,6 +4,7 @@ export interface ITeamBase {
   logo: string;
   stadium: string;
   country: string;
+  website: string | null;
 }
 
 export interface ITeam extends ITeamBase {
