@@ -66,7 +66,7 @@ export class MatchService {
   }
 
   public static async getMatchLineUp(matchId: number): Promise<IMatchLineUp[]> {
-    let url: string = URLs.MATCHS.LINEUPS.replace(
+    const url: string = URLs.MATCHS.LINEUPS.replace(
       "$matchId",
       matchId.toString(),
     );
@@ -77,6 +77,7 @@ export class MatchService {
   public static async getMatchTimeline(
     _matchId: number,
   ): Promise<IMatchEvent[]> {
+    console.log(_matchId);
     return [];
   }
 
