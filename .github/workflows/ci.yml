@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_API_HOST: api.staging.example.com
-      NODE_ENV: production
+      NODE_ENV: development
 
     steps:
       - name: Checkout Code
