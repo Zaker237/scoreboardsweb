@@ -3,7 +3,6 @@ import {
   IMatchBase,
   IMatch,
   IMatchAppearance,
-  IMatchEvent,
 } from "@/interfaces/IMatch";
 
 export class MatchService {
@@ -72,12 +71,6 @@ export class MatchService {
       URLs.MATCHS.APPEARANCE.replace("$matchId", matchId.toString()),
     );
     return response.json() as Promise<IMatchAppearance[]>;
-  }
-
-  public static async getMatchTimeline(
-    _matchId: number,
-  ): Promise<IMatchEvent[]> {
-    return [];
   }
 
   public static async getUpcomingMatchs(

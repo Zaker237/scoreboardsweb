@@ -3,7 +3,7 @@ if (!process.env.NEXT_PUBLIC_API_HOST) {
 }
 
 export const HOST = process.env.NEXT_PUBLIC_API_HOST;
-export let PROTOCOLE: string =
+export const PROTOCOLE: string =
   process.env.NODE_ENV === "production" ? "https" : "http";
 
 const API_VERSION = process.env.NEXT_PUBLIC_API_VERSION ?? "v1";
