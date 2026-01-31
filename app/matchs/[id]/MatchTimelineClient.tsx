@@ -3,7 +3,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { FaFutbol, FaExchangeAlt } from "react-icons/fa";
+import {
+  FaFutbol,
+  FaExchangeAlt,
+  FaCheckCircle,
+  FaTimesCircle,
+} from "react-icons/fa";
 import { BsFillSquareFill } from "react-icons/bs";
 import { MatchService } from "@/services/MatchService";
 import { MatchTimeline } from "@/components/matchs/MatchTimeline";
@@ -13,6 +18,8 @@ import { ITimelineEvent } from "@/interfaces/ITimelineEvent";
 import { MatchHeader } from "@/components/matchs/MatchHeader";
 import { CenteredMessage } from "@/components/CenteredMessage";
 import { TimelineEventEnum } from "@/enums/timeline";
+import { GoalStatus } from "@/enums/goals";
+import { GoalType } from "@/enums/goals";
 
 interface IProps {
   id: string;
@@ -27,31 +34,92 @@ const sortByMatchTime = (a: ITimelineEvent, b: ITimelineEvent) => {
 function buildEventsFromMatch(match: IMatch): ITimelineEvent[] {
   const events: ITimelineEvent[] = [];
 
-  match.goals.forEach((goal) => {
-    events.push({
-      id: goal.id,
-      type: TimelineEventEnum.GOAL,
-      minute: goal.minute ?? 0,
-      stoppage_minute: goal.stoppage_minute ?? null,
-      team: goal.team,
-      icon: (
-        <>
-          <FaFutbol className={goal.is_csc ? "text-red-600" : "text-green-600"} />
-          {goal.is_csc && "(OG)"}
-        </>
-      ),
-      title: goal.scorer ? `${goal.scorer.firstname} ${goal.scorer.lastname}` : "Unknown scorer",
-      description: goal.is_csc
-        ? `Own goal`
-        : goal.assister
-        ? `(${goal.assister.firstname} ${goal.assister.lastname})`
-        : "",
-      is_penalty: goal.is_penalty,
-      is_home:
-        (goal.team.id === match.home_team.id && !goal.is_csc) ||
-        (goal.team.id === match.away_team.id && goal.is_csc),
+  match.goals
+    .filter((elem) => {
+      return (
+        elem.status == GoalStatus.VALID &&
+        elem.goal_type != GoalType.PENALTY_SHOOTOUT
+      );
+    })
+    .forEach((goal) => {
+      events.push({
+        id: goal.id,
+        type: TimelineEventEnum.GOAL,
+        minute: goal.minute ?? 0,
+        stoppage_minute: goal.stoppage_minute ?? null,
+        team: goal.team,
+        icon: (
+          <>
+            <FaFutbol
+              className={goal.is_csc ? "text-red-600" : "text-green-600"}
+            />
+          </>
+        ),
+        title: goal.scorer
+          ? `${goal.scorer.firstname} ${goal.scorer.lastname}`
+          : "Unknown scorer",
+        description: goal.is_csc
+          ? `Own goal`
+          : goal.assister
+            ? `(${goal.assister.firstname} ${goal.assister.lastname})`
+            : "",
+        is_penalty: goal.is_penalty,
+        is_home:
+          (goal.team.id === match.home_team.id && !goal.is_csc) ||
+          (goal.team.id === match.away_team.id && goal.is_csc),
+      });
     });
-  });
+
+  // 2. MISSED goal
+  match.goals
+    .filter((elem) => {
+      return (
+        elem.status == (GoalStatus.CANCELLED || GoalStatus.MISSED) &&
+        elem.goal_type != GoalType.PENALTY_SHOOTOUT
+      );
+    })
+    .forEach((miss) => {
+      events.push({
+        id: miss.id,
+        type: TimelineEventEnum.GOAL, // Keep as Goal type for UI grouping or use a specific MISSED type
+        minute: miss.minute ?? 0,
+        stoppage_minute: miss.stoppage_minute ?? null,
+        team: miss.team,
+        is_missed: true,
+        icon: <FaTimesCircle className="text-gray-400" />,
+        title: miss.scorer
+          ? `${miss.scorer.firstname} ${miss.scorer.lastname}`
+          : "Unknown scorer",
+        description: "Missed Penalty",
+        is_home: miss.team.id === match.home_team.id,
+      });
+    });
+
+  match.goals
+    .filter((elem) => {
+      return elem.goal_type == GoalType.PENALTY_SHOOTOUT;
+    })
+    .forEach((attempt, index) => {
+      events.push({
+        id: attempt.id,
+        type: TimelineEventEnum.PENALTY_SHOOTOUT,
+        minute: 121,
+        shootout_order: attempt.shootout_order || index + 1, // Used for side-by-side alignment
+        team: attempt.team,
+        is_missed: attempt.status != GoalStatus.VALID,
+        icon:
+          attempt.status != GoalStatus.VALID ? (
+            <FaCheckCircle className="text-green-500" />
+          ) : (
+            <FaTimesCircle className="text-red-500" />
+          ),
+        title: attempt.scorer
+          ? `${attempt.scorer.firstname} ${attempt.scorer.lastname}`
+          : "Unknown scorer",
+        description: "",
+        is_home: attempt.team.id === match.home_team.id,
+      });
+    });
 
   match.cards.forEach((card) => {
     events.push({
@@ -66,7 +134,9 @@ function buildEventsFromMatch(match: IMatch): ITimelineEvent[] {
         ) : (
           <BsFillSquareFill className="text-yellow-400" />
         ),
-      title: card.player ? `${card.player.firstname} ${card.player.lastname}` : "Unknown player",
+      title: card.player
+        ? `${card.player.firstname} ${card.player.lastname}`
+        : "Unknown player",
       description: "",
       is_home: card.team.id === match.home_team.id,
     });

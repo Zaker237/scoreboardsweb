@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { ChampionshipService } from "@/services/ChampionshipService.ts";
 import { IStanding } from "@/interfaces/IStanding";
+import { IEditionStandingRule } from "@/interfaces/IEditions";
 import { Loader2 } from "lucide-react";
 import { StandingDataTable } from "./StandingDataTable";
 
@@ -17,6 +18,7 @@ export const ChampionshipStanding: React.FC<IChampionshipStandingProps> = ({
   editionId,
 }) => {
   const [standings, setStandings] = useState<IStanding[]>([]);
+  const [rules, setRules] = useState<IEditionStandingRule[]>([]);
   const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
   const [groups, setGroups] = useState<string[]>([]);
 
@@ -24,11 +26,12 @@ export const ChampionshipStanding: React.FC<IChampionshipStandingProps> = ({
     const getStandings = async () => {
       setIsDataLoading(true);
       try {
-        const data =
-          await ChampionshipService.getStandingsByChampionshipEdition(
-            editionId
-          );
+        const [data, ruleData] = await Promise.all([
+          ChampionshipService.getStandingsByChampionshipEdition(editionId),
+          ChampionshipService.getRulesByChampionshipEdition(editionId),
+        ]);
         setStandings(data);
+        setRules(ruleData);
 
         // Extract unique groups safely
         const uniqueGroups = Array.from(
@@ -36,9 +39,9 @@ export const ChampionshipStanding: React.FC<IChampionshipStandingProps> = ({
             data
               .map((s) => s.participation.group)
               .filter(
-                (g): g is string => g !== undefined && g !== null && g !== ""
-              )
-          )
+                (g): g is string => g !== undefined && g !== null && g !== "",
+              ),
+          ),
         );
         setGroups(uniqueGroups);
       } finally {
@@ -75,14 +78,37 @@ export const ChampionshipStanding: React.FC<IChampionshipStandingProps> = ({
             <StandingDataTable
               columns={columns}
               standings={standings.filter(
-                (s) => s.participation.group === group
+                (s) => s.participation.group === group,
               )}
+              rules={rules}
             />
             <hr className="my-4" />
           </div>
         ))
       ) : (
-        <StandingDataTable columns={columns} standings={standings} />
+        <StandingDataTable
+          columns={columns}
+          standings={standings}
+          rules={rules}
+        />
+      )}
+      {rules.length > 0 && (
+        <div className="flex flex-wrap gap-4 px-4 py-2 border-t bg-muted/30 rounded-b-md">
+          {rules
+            // Sort by priority or position so the legend looks organized
+            .sort((a, b) => a.priority - b.priority)
+            .map((rule) => (
+              <div key={rule.id} className="flex items-center gap-2">
+                <div
+                  className="w-3 h-3 rounded-full border border-black/10"
+                  style={{ backgroundColor: rule.color }}
+                />
+                <span className="text-xs font-medium text-muted-foreground">
+                  {rule.outcome}
+                </span>
+              </div>
+            ))}
+        </div>
       )}
     </div>
   );

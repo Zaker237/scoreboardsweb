@@ -31,6 +31,9 @@ export const ChampionshipTeamList: React.FC<IChampionshipTeamListProps> = ({
 
   return (
     <div className="flex flex-col w-full rounded-lg p-4">
+      <h2 className="text-2xl font-semibold mb-4 w-full">
+        {championship.name}'s Teams
+      </h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
         {teams.map((team) => (
           <Card

@@ -29,7 +29,7 @@ export default function ContactPage() {
           <div className="space-y-2 text-center">
             <h1 className="text-3xl font-bold text-primary">Contact Us</h1>
             <p className="text-muted-foreground">
-              Have questions or feedback? Fill out the form below and we&apos;ll get
+              Have questions or feedback? Fill out the form below and we'll get
               back to you as soon as possible.
             </p>
           </div>
