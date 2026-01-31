@@ -2,8 +2,8 @@ import { URLs } from "../constants/urls";
 import {
   IMatchBase,
   IMatch,
+  IMatchAppearance,
   IMatchEvent,
-  IMatchLineUp,
 } from "@/interfaces/IMatch";
 
 export class MatchService {
@@ -65,19 +65,18 @@ export class MatchService {
     return response.json() as Promise<IMatchBase[]>;
   }
 
-  public static async getMatchLineUp(matchId: number): Promise<IMatchLineUp[]> {
-    const url: string = URLs.MATCHS.LINEUPS.replace(
-      "$matchId",
-      matchId.toString(),
+  public static async getMatchAppearances(
+    matchId: number,
+  ): Promise<IMatchAppearance[]> {
+    const response = await fetch(
+      URLs.MATCHS.APPEARANCE.replace("$matchId", matchId.toString()),
     );
-    const response = await fetch(url);
-    return response.json() as Promise<IMatchLineUp[]>;
+    return response.json() as Promise<IMatchAppearance[]>;
   }
 
   public static async getMatchTimeline(
     _matchId: number,
   ): Promise<IMatchEvent[]> {
-    console.log(_matchId);
     return [];
   }
 

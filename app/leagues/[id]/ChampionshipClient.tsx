@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft, MapPin } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -22,10 +22,9 @@ interface Props {
 export default function ChampionshipClient({ id }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pathname = usePathname();
 
   const [edition, setEdition] = useState<IEdition | null>(null);
-  const championshipTab = searchParams.get("tab") || "table";
+  const [championshipTab, setChampionshipTab] = useState("table");
   const [matchTab, setMatchTab] = useState("all");
 
   useEffect(() => {
@@ -34,15 +33,10 @@ export default function ChampionshipClient({ id }: Props) {
       setEdition(data);
     };
     loadEdition();
-    // Tab logic removed from here to prevent cascading renders
-  }, [id]);
 
-  // 2. Helper to update tabs via URL
-  const handleTabChange = (value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("tab", value);
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-  };
+    const tab = searchParams.get("tab");
+    if (tab) setChampionshipTab(tab);
+  }, [id, searchParams]);
 
   if (!edition) {
     return <div className="p-4">Loading...</div>;
@@ -52,19 +46,21 @@ export default function ChampionshipClient({ id }: Props) {
     <div className="flex p-4 gap-4 w-full">
       <div className="flex flex-col lg:flex-row p-4 gap-4 w-full">
         <div className="w-full lg:w-1/4 flex flex-col items-center">
-          {edition.championship?.logo && (
-            <Avatar className="mb-4 w-24 h-24 lg:w-32 lg:h-32">
-              <AvatarImage src={edition.championship.logo} />
-              <AvatarFallback>{edition.label}</AvatarFallback>
-            </Avatar>
-          )}
+          {edition.championship?.logo && <Avatar className="mb-4 w-24 h-24 lg:w-32 lg:h-32">
+            <AvatarImage src={edition.championship.logo} />
+            <AvatarFallback>{edition.label}</AvatarFallback>
+          </Avatar>}
 
-          <h1 className="text-lg font-semibold text-center">{edition.label}</h1>
+          <h1 className="text-lg font-semibold text-center">
+            {edition.label}
+          </h1>
 
           {edition.championship.country && (
             <div className="flex items-center gap-2 pt-4 font-semibold">
               <MapPin className="w-4 h-4" />
-              <span className="text-sm">{edition.championship.country}</span>
+              <span className="text-sm">
+                {edition.championship.country}
+              </span>
             </div>
           )}
         </div>
@@ -74,16 +70,24 @@ export default function ChampionshipClient({ id }: Props) {
             onClick={() => router.back()}
             className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 mb-4"
           >
-            <ArrowLeft size={16} /> Back
+            <ArrowLeft size={16} />
+            Back
           </button>
 
-          <Tabs value={championshipTab} onValueChange={handleTabChange}>
+          <Tabs
+            value={championshipTab}
+            onValueChange={setChampionshipTab}
+          >
             <TabsList className="flex w-full overflow-x-auto gap-2">
               <TabsTrigger value="table">Table</TabsTrigger>
               <TabsTrigger value="teams">Teams</TabsTrigger>
               <TabsTrigger value="matchs">Matches</TabsTrigger>
-              <TabsTrigger value="teams_stats">Team Stats</TabsTrigger>
-              <TabsTrigger value="players_stats">Player Stats</TabsTrigger>
+              <TabsTrigger value="teams_stats">
+                Team Stats
+              </TabsTrigger>
+              <TabsTrigger value="players_stats">
+                Player Stats
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="table">
@@ -105,10 +109,7 @@ export default function ChampionshipClient({ id }: Props) {
             </TabsContent>
 
             <TabsContent value="teams_stats">
-              <ChampionshipTeamStats
-                championshipName={edition.label}
-                championshipId={edition.id}
-              />
+              <ChampionshipTeamStats championshipName={edition.label} championshipId={edition.id} />
             </TabsContent>
 
             <TabsContent value="matchs">

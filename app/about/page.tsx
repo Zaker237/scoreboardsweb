@@ -111,7 +111,7 @@ export default function AboutPage() {
             <p>
               We envision a future where fans, analysts, and football
               enthusiasts can easily access reliable information about
-              Cameroon&apos;s local leagues. By combining real-time match updates
+              Cameroon's local leagues. By combining real-time match updates
               with a growing historical data archive, Scoreboards aims to
               enhance the experience of following football in Cameroon.
             </p>
@@ -127,7 +127,7 @@ export default function AboutPage() {
             <h2 className="text-2xl font-semibold">About Our Data</h2>
             <p>
               At Scoreboards, we are committed to collecting accurate and
-              comprehensive data from Cameroon&apos;s local football leagues. Every
+              comprehensive data from Cameroon's local football leagues. Every
               match, player performance, and team statistic is carefully
               recorded to create a reliable historical archive.
             </p>

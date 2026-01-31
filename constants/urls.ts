@@ -1,9 +1,9 @@
 if (!process.env.NEXT_PUBLIC_API_HOST) {
-  throw new Error('NEXT_PUBLIC_API_HOST is missing');
+  throw new Error("NEXT_PUBLIC_API_HOST is missing");
 }
 
 export const HOST = process.env.NEXT_PUBLIC_API_HOST;
-export const PROTOCOLE: string =
+export let PROTOCOLE: string =
   process.env.NODE_ENV === "production" ? "https" : "http";
 
 const API_VERSION = process.env.NEXT_PUBLIC_API_VERSION ?? "v1";
@@ -20,6 +20,7 @@ export const URLs = {
   },
   EDITIONS: {
     ACTIVE: `${BASE_URL}/championships/editions/`,
+    RULES: `${BASE_URL}/edition/$editionId/rules/`,
   },
   STANDINGS: {
     ALL: `${BASE_URL}/standings/`,

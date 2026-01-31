@@ -5,6 +5,17 @@ export interface IChampionshipEdition {
   logo?: string;
 }
 
+export interface IEditionStandingRule {
+  id: number;
+  edition: number;
+  phase: string;
+  from_position: number;
+  to_position?: number;
+  outcome: string;
+  color: string;
+  priority: number;
+}
+
 export interface IMatchEdition {
   id: number;
   championship: IChampionshipEdition;

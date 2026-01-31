@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ColumnDef } from "@tanstack/react-table";
 import { IStanding } from "@/interfaces/IStanding";
+import { IEditionStandingRule } from "@/interfaces/IEditions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export const StandingTableHeader: ColumnDef<IStanding>[] = [
@@ -8,20 +9,25 @@ export const StandingTableHeader: ColumnDef<IStanding>[] = [
     accessorKey: "position",
     header: "#",
     cell: ({ row, table }) => {
-      // number of rows in the table
-      const rows = table.getRowModel().rows.length;
-      // set the background color of the cell based on the position
-      const bgColor =
-        row.index - 2 < 0
-          ? "bg-green-500"
-          : row.index >= rows - 3
-          ? "bg-red-600"
-          : "";
+      const rules =
+        ((table.options.meta as any)?.rules as IEditionStandingRule[]) || [];
+      const position = row.index + 1;
+
+      const rule = rules.find(
+        (r) =>
+          position >= r.from_position &&
+          position <= (r.to_position ?? position),
+      );
+
       return (
         <div
-          className={`p-2 rounded-md text-center font-semibold text-black ${bgColor}`}
+          className="p-1 rounded-sm text-center font-bold text-white"
+          style={{
+            backgroundColor: rule?.color || "transparent",
+            textShadow: rule?.color ? "0px 0px 2px rgba(0,0,0,0.5)" : "none",
+          }}
         >
-          {row.index + 1}
+          {position}
         </div>
       );
     },

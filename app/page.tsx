@@ -1,5 +1,6 @@
 import MatchsPageClient from "./MatchsPageClient";
 import { homePageText, appDomain } from "@/constants/seoTexts";
+import { DateContextProvider } from "@/contexts/DateContext";
 
 export const metadata = {
   title: "Home | Scoreboards",
@@ -13,6 +14,16 @@ export const metadata = {
   },
 };
 
-export default function Home() {
-  return <MatchsPageClient />;
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ date?: string }>;
+}) {
+  const { date } = await searchParams;
+
+  return (
+    <DateContextProvider initialDate={date}>
+      <MatchsPageClient />
+    </DateContextProvider>
+  );
 }

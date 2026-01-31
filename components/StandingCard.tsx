@@ -1,6 +1,5 @@
 import React from "react";
 import { IStanding } from "../interfaces/IStanding";
-import Image from "next/image";
 
 interface IStandingCardProps {
   standing: IStanding;
@@ -15,11 +14,9 @@ export const StandingCard: React.FC<IStandingCardProps> = (
       <td className="p-2">{props.index + 1}</td>
       <td className="p-2">
         {props.standing.participation.team.logo && (
-          <Image
+          <img
             src={props.standing.participation.team.logo}
             alt={props.standing.participation.team.name}
-            width={6}
-            height={6}
             className="w-6 h-6 mr-2 inline-block"
           />
         )}
