@@ -1,5 +1,5 @@
 if (!process.env.NEXT_PUBLIC_API_HOST) {
-  throw new Error('NEXT_PUBLIC_API_HOST is missing');
+  throw new Error("NEXT_PUBLIC_API_HOST is missing");
 }
 
 export const HOST = process.env.NEXT_PUBLIC_API_HOST;
@@ -20,6 +20,7 @@ export const URLs = {
   },
   EDITIONS: {
     ACTIVE: `${BASE_URL}/championships/editions/`,
+    RULES: `${BASE_URL}/edition/$editionId/rules/`,
   },
   STANDINGS: {
     ALL: `${BASE_URL}/standings/`,

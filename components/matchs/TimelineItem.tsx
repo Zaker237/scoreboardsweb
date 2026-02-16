@@ -1,7 +1,8 @@
-"use client"
+"use client";
 
 import { ITimelineEvent } from "@/interfaces/ITimelineEvent";
-import { TimelineEventEnum } from "@/enums/timeline";
+// import { TimelineEventEnum } from "@/enums/timeline";
+import { cn } from "@/lib/utils";
 
 interface ItemProps {
   event: ITimelineEvent;
@@ -11,49 +12,68 @@ export const TimelineItem: React.FC<ItemProps> = ({ event }) => {
   const isHome = event.is_home;
   return (
     <div
-      className={`flex items-center w-full ${
-        isHome ? "flex-row" : "flex-row-reverse"
-      }`}
+      className={cn(
+        "flex items-center w-full",
+        isHome ? "flex-row" : "flex-row-reverse",
+      )}
     >
       <div
-        className={`w-[45%] ${isHome ? "text-right pr-4" : "text-left pl-4"}`}
+        className={cn(
+          "w-1/2 px-4 flex items-center gap-3",
+          isHome ? "flex-row-reverse text-right" : "flex-row text-left",
+        )}
       >
-        <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-100 inline-block max-w-full">
-          <div className="flex items-center gap-2 mb-1 justify-inherit">
-            <span className="text-sm font-bold text-gray-900">
-              {event.icon}
+        <span className="text-xl shrink-0 leading-none">{event.icon}</span>
+
+        <div
+          className={cn(
+            "flex flex-col min-w-0",
+            isHome ? "items-end" : "items-start",
+          )}
+        >
+          <span className="font-bold text-sm leading-tight whitespace-nowrap">
+            {event.title}
+          </span>
+
+          {event.description && (
+            <span
+              className={cn(
+                "text-[10px] leading-tight text-slate-500/80 font-medium truncate w-full",
+                "mt-0.5",
+              )}
+            >
+              {event.description}
             </span>
-            <span className="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 rounded">
-              {event.minute}
-              {event.stoppage_minute ? `+${event.stoppage_minute}` : ""}&apos;
-            </span>
-          </div>
-          <div className="flex flex-col items-start justify-center">
-            <p className="text-xs font-medium text-gray-700 leading-tight">
-              {event.title}
-            </p>
-            {event.description && (
-              <span className="text-[10px] font-normal text-gray-500 leading-tight">
-                {event.description}
-              </span>
-            )}
-          </div>
+          )}
         </div>
       </div>
 
-      <div className="relative z-10 w-[10%] flex justify-center">
-        <div
-          className={`w-3 h-3 rounded-full border-2 border-white shadow-sm ${
-            event.type === TimelineEventEnum.GOAL
-              ? "bg-green-500"
-              : event.type === TimelineEventEnum.CARD
-              ? "bg-yellow-400"
-              : "bg-blue-400"
-          }`}
-        />
+      <div className="z-10 w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-full text-[10px] font-bold shrink-0">
+        {event.minute}&apos;
       </div>
 
-      <div className="w-[45%]" />
+      <div className="w-1/2" />
     </div>
   );
 };
+
+export const ShootoutCompactItem: React.FC<{ event: ITimelineEvent }> = ({
+  event,
+}) => (
+  <div
+    className={cn(
+      "flex items-center gap-2",
+      event.is_home ? "justify-end" : "justify-start",
+    )}
+  >
+    <span
+      className={cn(
+        "text-xs font-medium",
+        event.is_missed ? "text-red-500 line-through" : "text-slate-900",
+      )}
+    >
+      {event.title}
+    </span>
+    <span className={event.is_missed ? "opacity-50" : ""}>{event.icon}</span>
+  </div>
+);

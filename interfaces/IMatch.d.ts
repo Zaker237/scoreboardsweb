@@ -12,16 +12,6 @@ interface IMatchTeam {
   logo: string;
 }
 
-interface IMatchLineUp {
-  id: number,
-  player: IBasePlayer;
-  team: ITeamBase,
-  match: number,
-  poistion: string;
-  is_starting: boolean;
-  minutes_played: number;
-}
-
 export interface IMatchBase {
   id: number;
   type: MatchType;
@@ -53,7 +43,16 @@ export interface IMatch extends IMatchBase {
   goals: IGoal[];
   cards: ICard[];
   substitutions: ISubtitution[];
-  lineups: IMatchLineUp[];
+}
+
+
+export interface IMatchAppearance {
+  id: number;
+  player: IBasePlayer;
+  team: ITeamBase;
+  position: string;
+  is_starting: boolean;
+  minutesPlayed: number;
 }
 
 

@@ -1,8 +1,6 @@
 import React from "react";
 import { TimelineEventEnum } from "@/enums/timeline";
 
-// export type TimelineEventType = TimelineEventEnum.GOAL | TimelineEventEnum.CARD | TimelineEventEnum.SUBSTITUTION;
-
 export interface ITimelineEvent {
   id: number;
   type: TimelineEventEnum;
@@ -11,7 +9,9 @@ export interface ITimelineEvent {
   team: IMatchTeam;
   title: string;
   description: string;
-	icon: string | React;
+  icon: string | React;
   is_penalty?: boolean;
   is_home?: boolean;
+  is_missed?: boolean;
+  shootout_order?: number;
 }

@@ -63,9 +63,9 @@ export const PlayerTransferts: React.FC<IPlayerTransfertsProps> = ({
                       <Image
                         src={t.team.logo}
                         alt={t.team.name}
-                        width={8}
-                        height={8}
                         className="w-8 h-8 rounded-full"
+                        width={64}
+                        height={64}
                       />
                     )}
                     <span className="text-sm sm:text-base font-medium text-right truncate">
@@ -82,9 +82,9 @@ export const PlayerTransferts: React.FC<IPlayerTransfertsProps> = ({
                       <Image
                         src={t.team.logo}
                         alt={t.team.name}
-                        width={8}
-                        height={8}
                         className="w-8 h-8 rounded-full"
+                        width={64}
+                        height={64}
                       />
                     )}
                     <span className="text-sm sm:text-base font-medium truncate">

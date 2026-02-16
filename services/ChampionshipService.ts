@@ -1,6 +1,6 @@
 import { URLs } from "../constants/urls";
 import { IChampionship } from "../interfaces/IChampionship";
-import { IEdition } from "@/interfaces/IEditions";
+import { IEdition, IEditionStandingRule } from "@/interfaces/IEditions";
 import { IStanding } from "../interfaces/IStanding";
 
 export class ChampionshipService {
@@ -33,5 +33,14 @@ export class ChampionshipService {
       URLs.STANDINGS.CHAMPIONSHIP.replace("$editionId", editionId.toString())
     );
     return response.json() as Promise<IStanding[]>;
+  }
+
+  public static async getRulesByChampionshipEdition(
+    editionId: number
+  ): Promise<IEditionStandingRule[]> {
+    const response = await fetch(
+      URLs.EDITIONS.RULES.replace("$editionId", editionId.toString())
+    );
+    return response.json() as Promise<IEditionStandingRule[]>;
   }
 }

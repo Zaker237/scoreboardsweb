@@ -47,7 +47,6 @@ export default function ChampionshipClient({ id }: Props) {
   if (!edition) {
     return <div className="p-4">Loading...</div>;
   }
-
   return (
     <div className="flex p-4 gap-4 w-full">
       <div className="flex flex-col lg:flex-row p-4 gap-4 w-full">
@@ -74,7 +73,8 @@ export default function ChampionshipClient({ id }: Props) {
             onClick={() => router.back()}
             className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 mb-4"
           >
-            <ArrowLeft size={16} /> Back
+            <ArrowLeft size={16} />
+            Back
           </button>
 
           <Tabs value={championshipTab} onValueChange={handleTabChange}>

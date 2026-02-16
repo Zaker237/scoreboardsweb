@@ -8,7 +8,7 @@ interface IStandingCardProps {
 }
 
 export const StandingCard: React.FC<IStandingCardProps> = (
-  props: IStandingCardProps
+  props: IStandingCardProps,
 ) => {
   return (
     <tr className="border-b">
@@ -18,9 +18,9 @@ export const StandingCard: React.FC<IStandingCardProps> = (
           <Image
             src={props.standing.participation.team.logo}
             alt={props.standing.participation.team.name}
-            width={6}
-            height={6}
             className="w-6 h-6 mr-2 inline-block"
+            width={64}
+            height={64}
           />
         )}
         {props.standing.participation.team.name}
