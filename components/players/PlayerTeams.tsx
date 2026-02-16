@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { PlayerService } from "@/services/PlayerService";
 import { IPlayer, IPlayerTeamHistory } from "@/interfaces/IPlayers";
 import { Loader2 } from "lucide-react";
+import Image from "next/image";
 
 interface IPlayerTeamsProps {
   player: IPlayer;
@@ -61,10 +62,12 @@ export const PlayerTeams: React.FC<IPlayerTeamsProps> = ({ player }) => {
                   className="flex items-center gap-4 border rounded-lg p-4 shadow-sm hover:shadow-md transition"
                 >
                   {h.team.logo && (
-                    <img
+                    <Image
                       src={h.team.logo}
                       alt={h.team.name}
                       className="w-10 h-10 rounded-full"
+                      width={64}
+                      height={64}
                     />
                   )}
                   <div className="flex flex-col">

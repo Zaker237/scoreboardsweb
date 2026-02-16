@@ -6,6 +6,7 @@ import { IPlayer } from "@/interfaces/IPlayers";
 import { IPlayerTransfers } from "@/interfaces/ITransfers";
 import { Loader2 } from "lucide-react";
 import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 interface IPlayerTransfertsProps {
   player: IPlayer;
@@ -59,10 +60,12 @@ export const PlayerTransferts: React.FC<IPlayerTransfertsProps> = ({
                   {/* From team */}
                   <div className="flex items-center gap-2 w-1/3 justify-end">
                     {t.team?.logo && (
-                      <img
+                      <Image
                         src={t.team.logo}
                         alt={t.team.name}
                         className="w-8 h-8 rounded-full"
+                        width={64}
+                        height={64}
                       />
                     )}
                     <span className="text-sm sm:text-base font-medium text-right truncate">
@@ -76,10 +79,12 @@ export const PlayerTransferts: React.FC<IPlayerTransfertsProps> = ({
                   {/* To team */}
                   <div className="flex items-center gap-2 w-1/3">
                     {t.team?.logo && (
-                      <img
+                      <Image
                         src={t.team.logo}
                         alt={t.team.name}
                         className="w-8 h-8 rounded-full"
+                        width={64}
+                        height={64}
                       />
                     )}
                     <span className="text-sm sm:text-base font-medium truncate">

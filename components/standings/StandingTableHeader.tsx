@@ -10,7 +10,7 @@ export const StandingTableHeader: ColumnDef<IStanding>[] = [
     header: "#",
     cell: ({ row, table }) => {
       const rules =
-        ((table.options.meta as any)?.rules as IEditionStandingRule[]) || [];
+        (table.options.meta as { rules?: IEditionStandingRule[] })?.rules ?? [];
       const position = row.index + 1;
 
       const rule = rules.find(

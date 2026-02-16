@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import {
   ColumnDef,
+  Column,
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -42,7 +43,7 @@ export const TeamStatDataTable: React.FC<IDataTableProps> = ({
     debugTable: false,
   });
 
-  const renderSortingIcon = (column: any) => {
+  const renderSortingIcon = (column: Column<ITeamStats, unknown>) => {
     if (!column.getCanSort() || ["position", "team"].includes(column.id))
       return null;
     const sorted = column.getIsSorted();
@@ -65,7 +66,7 @@ export const TeamStatDataTable: React.FC<IDataTableProps> = ({
                 >
                   {flexRender(
                     header.column.columnDef.header,
-                    header.getContext()
+                    header.getContext(),
                   )}
                   {renderSortingIcon(header.column)}
                 </TableHead>

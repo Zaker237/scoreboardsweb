@@ -49,7 +49,7 @@ export const TimelineItem: React.FC<ItemProps> = ({ event }) => {
       </div>
 
       <div className="z-10 w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-full text-[10px] font-bold shrink-0">
-        {event.minute}'
+        {event.minute}&apos;
       </div>
 
       <div className="w-1/2" />
